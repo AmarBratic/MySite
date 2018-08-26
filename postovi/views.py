@@ -3,7 +3,6 @@ from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.views.generic import View
 from .models import Question
 
 class IndexView(generic.ListView):
@@ -19,6 +18,10 @@ class DetailView(generic.DetailView):
 class QuestionCreate(CreateView):
     model = Question
     fields = ['quest_name','quest_text']
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(QuestionCreate, self).form_valid(form)
 
 class QuestionUpdate(UpdateView):
     model = Question
