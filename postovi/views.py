@@ -18,6 +18,10 @@ class DetailView(generic.DetailView):
 class QuestionCreate(CreateView):
     model = Question
     fields = ['quest_name','quest_text']
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(QuestionCreate, self).form_valid(form)
 
 class QuestionUpdate(UpdateView):
     model = Question
